@@ -2,4 +2,4 @@ python-dotenv
 pillow
 openpyxl
 requests
-#pywin32
+pywin32; platform_system == "Windows"

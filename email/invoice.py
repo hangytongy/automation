@@ -1,11 +1,13 @@
 from datetime import datetime, timedelta
 import openpyxl
 import os
-import win32com.client
 from openpyxl.drawing.image import Image
 from PIL import Image as PILImage
 import platform
 import subprocess
+
+if platform.system() == 'Windows':
+    import win32com.client
 
 
 def resize_image_to_fit_cell(image_path, target_width_px, target_height_px):
