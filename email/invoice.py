@@ -10,23 +10,25 @@ if platform.system() == 'Windows':
     import win32com.client
 
 
-def resize_image_to_fit_cell(image_path, target_width_px, target_height_px):
-    img = PILImage.open(image_path)
-    img = img.resize((target_width_px, target_height_px), PILImage.LANCZOS)
-    resized_path = "resized_" + image_path
-    img.save(resized_path)
-    return resized_path
+def resize_image_to_fit_cell(image_path):
 
-column_width = 30  # in Excel units
-row_height = 16    # in points
+    column_width = 30  # in Excel units
+    row_height = 16    # in points
 
-# Approximate conversion to pixels
-target_width_px = int(column_width * 7.5)
-target_height_px = int(row_height * 1.33)
+    # Approximate conversion to pixels
+    target_width_px = int(column_width * 7.5)
+    target_height_px = int(row_height * 1.33)
 
-# Resize the image
-image_path = "logo_secondary_fullblack.png"
-resized_path = resize_image_to_fit_cell(image_path, target_width_px, target_height_px)
+    resized_path = "/images/resized_logo_secondary_fullblack.png"
+    
+    if os.path.exists(resized_path):
+        pass
+
+    else:
+        img = PILImage.open(image_path)
+        img = img.resize((target_width_px, target_height_px), PILImage.LANCZOS)
+        img.save(resized_path)
+        return resized_path
 
 def get_invoice_no(project):
     date = datetime.now()
@@ -151,7 +153,7 @@ def create_invoice(project_folder,client_name,client_addy,client_alias,invoice_n
     end_time_obj = start_time_obj - timedelta(seconds = 1)
     end_time = end_time_obj.strftime("%H%M")
     
-    img = Image("resized_logo_secondary_fullblack.png")
+    img = Image("/images/resized_logo_secondary_fullblack.png")
     client = client_name
     client_alias = client_alias
     client_address = client_addy
@@ -176,3 +178,6 @@ def create_invoice(project_folder,client_name,client_addy,client_alias,invoice_n
     return output_pdf_path
 
 
+# Resize the image
+image_path = "/images/logo_secondary_fullblack.png"
+resized_path = resize_image_to_fit_cell(image_path)

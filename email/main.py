@@ -45,4 +45,4 @@ for project in projects:
         if send_mail:
             mail.send_email(project,end_date)
 
-    time.sleep(5)
+        time.sleep(5)
