@@ -2,5 +2,4 @@ python-dotenv
 pillow
 openpyxl
 requests
-platform
 #pywin32

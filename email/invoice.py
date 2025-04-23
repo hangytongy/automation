@@ -111,7 +111,7 @@ def fill_excel_template(template_path, img, client_name, client_alias ,client_ad
     print(f"✅ Excel invoice saved at {output_excel_path}")
     return output_excel_path
 
-def convert_excel_to_pdf(excel_path):
+def convert_excel_to_pdf(excel_path,project_folder):
 
     output_pdf_path = f"{excel_path.split('.')[0]}.pdf"
 
@@ -125,10 +125,6 @@ def convert_excel_to_pdf(excel_path):
         wb.Close()
         excel.Quit()
 
-        os.remove(excel_path)
-
-        print(f"✅ PDF exported to {output_pdf_path}")
-        return output_pdf_path
     
     elif os_type == "Linux":
 
@@ -136,9 +132,14 @@ def convert_excel_to_pdf(excel_path):
                     "libreoffice",
                     "--headless",
                     "--convert-to", "pdf",
-                    "--outdir", output_pdf_path,
+                    "--outdir", project_folder,
                     excel_path
         ])
+
+    os.remove(excel_path)
+
+    print(f"✅ PDF exported to {output_pdf_path}")
+    return output_pdf_path
 
 def create_invoice(project_folder,client_name,client_addy,client_alias,invoice_no,invoice_items,no_of_teams,start_date,
                    end_date,start_time,payment_type,payment_addy):
@@ -168,7 +169,7 @@ def create_invoice(project_folder,client_name,client_addy,client_alias,invoice_n
 
     excel_path = fill_excel_template("standard_invoice.xlsx", img, client,client_alias, client_address,
                                      invoice_no, date, inv_date,invoice_items, note, payment_option,project_folder)
-    output_pdf_path = convert_excel_to_pdf(excel_path)
+    output_pdf_path = convert_excel_to_pdf(excel_path,project_folder)
 
     return output_pdf_path
 
