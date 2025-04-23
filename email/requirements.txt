@@ -1,5 +1,6 @@
-python-doten
+python-dotenv
 pillow
 openpyxl
 requests
-pywin32
+platform
+#pywin32

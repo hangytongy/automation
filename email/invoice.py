@@ -4,6 +4,8 @@ import os
 import win32com.client
 from openpyxl.drawing.image import Image
 from PIL import Image as PILImage
+import platform
+import subprocess
 
 
 def resize_image_to_fit_cell(image_path, target_width_px, target_height_px):
@@ -113,16 +115,30 @@ def convert_excel_to_pdf(excel_path):
 
     output_pdf_path = f"{excel_path.split('.')[0]}.pdf"
 
-    excel = win32com.client.Dispatch("Excel.Application")
-    wb = excel.Workbooks.Open(os.path.abspath(excel_path))
-    wb.ExportAsFixedFormat(0, os.path.abspath(output_pdf_path))
-    wb.Close()
-    excel.Quit()
+    os_type = platform.system()
 
-    os.remove(excel_path)
+    if os_type == "Windows":
 
-    print(f"✅ PDF exported to {output_pdf_path}")
-    return output_pdf_path
+        excel = win32com.client.Dispatch("Excel.Application")
+        wb = excel.Workbooks.Open(os.path.abspath(excel_path))
+        wb.ExportAsFixedFormat(0, os.path.abspath(output_pdf_path))
+        wb.Close()
+        excel.Quit()
+
+        os.remove(excel_path)
+
+        print(f"✅ PDF exported to {output_pdf_path}")
+        return output_pdf_path
+    
+    elif os_type == "Linux":
+
+        subprocess.run([
+                    "libreoffice",
+                    "--headless",
+                    "--convert-to", "pdf",
+                    "--outdir", output_pdf_path,
+                    excel_path
+        ])
 
 def create_invoice(project_folder,client_name,client_addy,client_alias,invoice_no,invoice_items,no_of_teams,start_date,
                    end_date,start_time,payment_type,payment_addy):
