@@ -1,0 +1,54 @@
+import smtplib
+from email.message import EmailMessage
+from datetime import datetime, timedelta
+from openpyxl.drawing.image import Image
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+
+def send_email(project,end_date):
+    
+    name = project['project']
+    payment_type = project['payment_type']
+    payment_address = project['payment_address']
+    amounts = project['amount']
+    
+    total = 0
+    for amount in amounts:
+        total += amount
+    
+    #sign off
+    signature = f"Regards, \nHanrong (Mr.) \nAdmin \nMetafrontier Ltd"
+    
+    # Settings
+    gmail_user = os.getenv("gmail_user")
+    gmail_app_password = os.getenv("gmail_app_password")
+    to_email = os.getenv("to_email")
+
+    # Generate dynamic content
+    month = datetime.now().strftime("%B %Y")
+    subject = f"Community Management Services for {name}"
+    body = f"Hi team,\n\nSending over the invoice for {name}'s Community Management Services. Attached is the invoice for the period ending {end_date}.\n\nPlease pay {total:,} to the following {payment_type} address: \n{payment_address} \n\n{signature}" 
+
+
+    # Create message
+    msg = EmailMessage()
+    msg['From'] = gmail_user
+    msg['To'] = to_email
+    msg['Subject'] = subject
+    msg.set_content(body)
+
+    #Attach invoice (PDF example)
+    with open("invoice_final.pdf", "rb") as f:
+        file_data = f.read()
+        msg.add_attachment(file_data, maintype="application", subtype="pdf", filename=f"Invoice_{month}.pdf")
+
+    # Send email
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(gmail_user, gmail_app_password)
+        smtp.send_message(msg)
+
+    print("Invoice sent successfully.")
