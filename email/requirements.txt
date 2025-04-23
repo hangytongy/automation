@@ -1,1 +1,5 @@
-python-dotenv
+python-doten
+pillow
+openpyxl
+requests
+pywin32

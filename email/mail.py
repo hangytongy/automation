@@ -1,12 +1,10 @@
 import smtplib
 from email.message import EmailMessage
 from datetime import datetime, timedelta
-from openpyxl.drawing.image import Image
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
 
 
 def send_email(project,end_date):
