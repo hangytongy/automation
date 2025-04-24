@@ -44,6 +44,6 @@ for project in projects:
             send_photo_telegram(doc_path, caption)
 
         if send_mail:
-            mail.send_email(project,end_date)
+            mail.send_email(project,end_date,doc_path)
 
         time.sleep(5)
