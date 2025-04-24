@@ -1,4 +1,4 @@
-###How to use
+### How to use
 
 
 1. ```cp .sample.env .env```
@@ -8,5 +8,11 @@
 5. ```python3 -m venv venv```
 6. ```source venv/bin/activate```
 7. ```pip install -r requirements.txt```
-8. In main.py change the send_mail and send_tele to True/False depending on what you want.
+8. In `main.py` change the `send_mail` and `send_tele` to *True/False* depending on what you want.
 9. ```python3 main.py```
+
+
+
+#### Workflow
+
+![Alt text](images/workflow.png)
