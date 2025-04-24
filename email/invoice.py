@@ -146,7 +146,7 @@ def convert_excel_to_pdf(excel_path,project_folder):
     return output_pdf_path
 
 def create_invoice(project_folder,client_name,client_addy,client_alias,invoice_no,invoice_items,no_of_teams,start_date,
-                   end_date,start_time,payment_type,payment_addy):
+                   end_date,start_time,payment_type,payment_addy,time_zone):
     
 
     start_time_obj = datetime.strptime(start_time, "%H%M")
@@ -163,8 +163,8 @@ def create_invoice(project_folder,client_name,client_addy,client_alias,invoice_n
     invoice_items = invoice_items
     note = {
         "teams" : f"{no_of_teams} team of 3x Community Managers will be provided for the following period:",
-        "start" : f"Start date: {start_date}, {start_time} GMT+8",
-        "end" : f"End date: {end_date}, {end_time} GMT+8"
+        "start" : f"Start date: {start_date}, {start_time} {time_zone}",
+        "end" : f"End date: {end_date}, {end_time} {time_zone}"
     } 
     payment_option = {
         "payment" : f"USDC to be made to the {payment_type} address:",

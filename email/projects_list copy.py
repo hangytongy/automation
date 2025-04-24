@@ -9,7 +9,9 @@ projects = [{"project": "project",
        "start time": "0000",
       "payment_type" : "ERC20",
       "payment_address" : "0xxxx",
-      "initail inv no" : 1
+      "initail inv no" : 1,
+      "mail_list" : ["ap@magiceden.io"],
+      "timezone" : ["GMT+8"]
      }
 
      ]
