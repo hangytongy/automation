@@ -162,7 +162,7 @@ def create_invoice(project_folder,client_name,client_addy,client_alias,invoice_n
     inv_date = datetime.now().strftime("%m%d")
     invoice_items = invoice_items
     note = {
-        "teams" : f"{no_of_teams} team of 3x Community Managers will be provided for Discord & Intercom for the following period:",
+        "teams" : f"{no_of_teams} team of 3x Community Managers will be provided for the following period:",
         "start" : f"Start date: {start_date}, {start_time} GMT+8",
         "end" : f"End date: {end_date}, {end_time} GMT+8"
     } 
