@@ -13,6 +13,7 @@ send_tele = True
 
 for project in projects:
 
+    print(f"checking.....{project['project']}")
 
     project_folder = f"invoices/{project['project']}"
     if not os.path.exists(project_folder):
