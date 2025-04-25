@@ -19,7 +19,7 @@ def resize_image_to_fit_cell(image_path):
     target_width_px = int(column_width * 7.5)
     target_height_px = int(row_height * 1.33)
 
-    resized_path = "/images/resized_logo_secondary_fullblack.png"
+    resized_path = "images/resized_logo_secondary_fullblack.png"
     
     if os.path.exists(resized_path):
         pass
@@ -179,5 +179,5 @@ def create_invoice(project_folder,client_name,client_addy,client_alias,invoice_n
 
 
 # Resize the image
-image_path = "/images/logo_secondary_fullblack.png"
+image_path = "images/logo_secondary_fullblack.png"
 resized_path = resize_image_to_fit_cell(image_path)
