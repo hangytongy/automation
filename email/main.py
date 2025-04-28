@@ -48,3 +48,7 @@ for project in projects:
             mail.send_email(project,end_date,doc_path)
 
         time.sleep(5)
+
+        
+        
+print(f"Invoice generation completed for {datetime.now().strftime('%d %b %Y')}")
