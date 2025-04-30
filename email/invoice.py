@@ -153,7 +153,7 @@ def create_invoice(project_folder,client_name,client_addy,client_alias,invoice_n
     end_time_obj = start_time_obj - timedelta(seconds = 1)
     end_time = end_time_obj.strftime("%H%M")
     
-    img = Image("/images/resized_logo_secondary_fullblack.png")
+    img = Image("images/resized_logo_secondary_fullblack.png")
     client = client_name
     client_alias = client_alias
     client_address = client_addy
