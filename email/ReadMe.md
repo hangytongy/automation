@@ -8,8 +8,8 @@
 5. ```python3 -m venv venv```
 6. ```source venv/bin/activate```
 7. ```pip install -r requirements.txt```
-8. In `main.py` change the `send_mail` and `send_tele` to *True/False* depending on what you want.
-9. ```python3 main.py```
+8. In `main.py` change the `send_mail` and `send_tele` and ```send_db``` to *True/False* depending on what you want.
+9. ```pm2 start pm2.json```. If invoicing reminders or telegram interactive not needed, remove it from ```pm2.json```
 
 
 
@@ -17,6 +17,11 @@
 
 ![Alt text](images/workflow.png)
 
+
+#### Notes
+
+- Payments from clients are tracked using Arkm (https://intel.arkm.com/) and Cielo (https://cielo.finance/) for ERC20 and SPL respectively.
+- Integrating automatic tracking of payments and invoicing reminders remains a challenge due to limited API resources on Solana.
 
 
 #### Improvements

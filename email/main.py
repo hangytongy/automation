@@ -10,6 +10,7 @@ import database
 
 send_mail = False
 send_tele = True
+send_db = True
 
 db_name = "invoices_pending.db"
 
@@ -46,7 +47,8 @@ for project in projects:
         doc_path = invoice.create_invoice(project_folder,client_name,client_addy,client_alias,invoice_no,invoice_items,no_of_teams,start_date,
                         end_date,start_time,payment_type,payment_addy,time_zone)
         
-        database.insert_invoice(db_name,client_name,total_amount,start_date,payment_type,payment_addy,invoice_no)
+        if send_db:
+            database.insert_invoice(db_name,client_name,total_amount,start_date,payment_type,payment_addy,invoice_no)
 
         if send_tele:
             caption = f"Invoice {client_alias}-{invoice_no} Generated"
