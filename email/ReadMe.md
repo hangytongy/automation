@@ -16,3 +16,11 @@
 #### Workflow
 
 ![Alt text](images/workflow.png)
+
+
+
+#### Improvements
+
+1. create a DB for pending invoices [done]
+2. create an interactive telebot to remove invoice from DB when paid [done]
+3. periodically check DB for outstanding invoices, if not paid, send reminder [done]

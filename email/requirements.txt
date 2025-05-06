@@ -3,3 +3,4 @@ pillow
 openpyxl
 requests
 pywin32; platform_system == "Windows"
+python-telegram-bot

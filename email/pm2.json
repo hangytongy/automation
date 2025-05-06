@@ -6,6 +6,22 @@
         "cron_restart": "0 10 * * *",
         "autorestart": false,
         "args": "main.py"
+      },
+      {
+        "name": "check_outstanding_invoices",
+        "script": "venv/bin/python3",
+        "cron_restart": "0 11 * * *",
+        "autorestart": false,
+        "args": "check_invoice_status.py"    
+      },
+      {
+        "name": "tele_interact",
+        "script": "venv/bin/python3",
+        "args": "interact_tele.py",
+        "watch": false, 
+        "autorestart": true,
+        "max_restarts": 10,
+        "restart_delay": 1000
       }
     ]
   }

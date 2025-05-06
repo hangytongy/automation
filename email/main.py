@@ -6,10 +6,14 @@ import os
 from dotenv import load_dotenv
 import time
 from datetime import datetime, timedelta
+import database
 
 send_mail = False
 send_tele = True
 
+db_name = "invoices_pending.db"
+
+database.init_db(db_name)
 
 for project in projects:
 
@@ -28,6 +32,8 @@ for project in projects:
     payment_type = project['payment_type']
     payment_addy = project['payment_address']
     time_zone = project['timezone']
+    amounts = project['amount']
+    total_amount = sum(amounts)
 
     invoice_no, no_of_invoices = invoice.get_invoice_no(project)
     start_date, end_date = invoice.get_start_end_date(project,no_of_invoices)
@@ -39,6 +45,8 @@ for project in projects:
 
         doc_path = invoice.create_invoice(project_folder,client_name,client_addy,client_alias,invoice_no,invoice_items,no_of_teams,start_date,
                         end_date,start_time,payment_type,payment_addy,time_zone)
+        
+        database.insert_invoice(db_name,client_name,total_amount,start_date,payment_type,payment_addy,invoice_no)
 
         if send_tele:
             caption = f"Invoice {client_alias}-{invoice_no} Generated"
