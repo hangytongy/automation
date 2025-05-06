@@ -7,11 +7,15 @@ import requests
 from datetime import datetime, timedelta
 from projects_list import projects
 from post_telegram import send_message_telegram
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 
 USDC_CONTRACT = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
-ETHERSCAN_API_KEY = "T4969P7GBBHNTV87GBIGVRGIEQS9JWCAXG"
+ETHERSCAN_API_KEY = os.getenv("ETHERSCAN_API_KEY")
 
 
 # Get block number closest to 24h ago
