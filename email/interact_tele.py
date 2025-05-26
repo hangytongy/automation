@@ -11,7 +11,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Create an inline keyboard with buttons for each command
     keyboard = [
         [InlineKeyboardButton("Remove Invoice", callback_data='remove_invoice')],
-        [InlineKeyboardButton("Update Amount", callback_data='update_amount')]
+        [InlineKeyboardButton("Update Amount", callback_data='update_amount')],
+        [InlineKeyboardButton("View Outstanding Invoices", callback_data='view_invoices')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -91,6 +92,27 @@ async def handle_update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     else:
         await update.message.reply_text('Click on Update Amount to update an invoice amount')
 
+async def view_invoices(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.callback_query.answer()  # Acknowledge the button click
+    # Connect to the database and fetch all outstanding invoices
+    conn = sqlite3.connect('invoices_pending.db')
+    c = conn.cursor()
+    c.execute("SELECT name, invoice_no, total_amount FROM invoices")
+    rows = c.fetchall()
+    conn.close()
+
+    if not rows:
+        await update.callback_query.message.reply_text("No outstanding invoices found.")
+        return
+
+    # Format the invoice list
+    message_lines = ["Outstanding Invoices:"]
+    for row in rows:
+        name, invoice_no, total_amount = row
+        message_lines.append(f"{name} | Invoice: {invoice_no} | Amount: {total_amount}")
+    message = "\n".join(message_lines)
+    await update.callback_query.message.reply_text(message)
+
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Handle button presses
     query = update.callback_query
@@ -100,6 +122,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         await remove_invoice(update, context)
     elif action == 'update_amount':
         await update_amount(update, context)
+    elif action == 'view_invoices':
+        await view_invoices(update, context)
 
 def main() -> None:
     # Initialize the Bot
@@ -115,6 +139,29 @@ def main() -> None:
     application.add_handler(MessageHandler(filters.TEXT & filters.Regex(r'(?i)^REMOVE '), handle_remove))
     application.add_handler(MessageHandler(filters.TEXT & filters.Regex(r'(?i)^UPDATE '), handle_update))
     application.add_handler(CallbackQueryHandler(button_handler))
+
+    # Optionally, add a command handler for /invoices as well
+    async def command_view_invoices(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        # Connect to the database and fetch all outstanding invoices
+        conn = sqlite3.connect('invoices_pending.db')
+        c = conn.cursor()
+        c.execute("SELECT name, invoice_no, total_amount FROM invoices")
+        rows = c.fetchall()
+        conn.close()
+
+        if not rows:
+            await update.message.reply_text("No outstanding invoices found.")
+            return
+
+        # Format the invoice list
+        message_lines = ["Outstanding Invoices:"]
+        for row in rows:
+            name, invoice_no, total_amount = row
+            message_lines.append(f"{name} | Invoice: {invoice_no} | Amount: {total_amount}")
+        message = "\n".join(message_lines)
+        await update.message.reply_text(message)
+
+    application.add_handler(CommandHandler("invoices", command_view_invoices))
 
     # Run the bot until the user presses Ctrl-C
     application.run_polling()
