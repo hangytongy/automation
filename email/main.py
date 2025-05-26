@@ -26,6 +26,7 @@ for project in projects:
 
 
     client_name = project['client name']
+    client_project = project['project']
     client_addy = project['client addy']
     client_alias = project['client alias']
     no_of_teams = project['no of teams']
@@ -48,7 +49,7 @@ for project in projects:
                         end_date,start_time,payment_type,payment_addy,time_zone)
         
         if send_db:
-            database.insert_invoice(db_name,client_name,total_amount,start_date,payment_type,payment_addy,invoice_no)
+            database.insert_invoice(db_name,client_project,total_amount,start_date,payment_type,payment_addy,invoice_no)
 
         if send_tele:
             caption = f"Invoice {client_alias}-{invoice_no} Generated"
